@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NT2 Spreken II – 33 Günlük Program v2</title>
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#1c1c26;--border:#2a2a38;--acc:#e8ff47;--acc2:#47b4ff;--acc3:#ff6b47;--acc4:#b447ff;--text:#e8e8f0;--muted:#6b6b80;--done-bg:#1a2a0f;--done-br:#3a6a1a;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{padding:28px 20px 18px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:100;}
+.htop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+h1{font-family:monospace;font-size:1rem;color:var(--acc);letter-spacing:2px;text-transform:uppercase;}
+.cd{font-family:monospace;font-size:0.82rem;color:var(--acc3);background:rgba(255,107,71,.1);border:1px solid var(--acc3);padding:5px 12px;border-radius:4px;}
+.pb{margin-top:12px;height:3px;background:var(--border);border-radius:2px;}
+.pf{height:3px;background:var(--acc);border-radius:2px;transition:width .5s;}
+.leg{display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;}
+.li{font-size:.68rem;color:var(--muted);display:flex;align-items:center;gap:5px;}
+.dot{width:7px;height:7px;border-radius:50%;}
+.container{max-width:920px;margin:0 auto;padding:16px 14px 60px;}
+.wh{font-family:monospace;font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);padding:20px 0 7px;border-bottom:1px solid var(--border);margin-bottom:10px;}
+.dc{background:var(--surface);border:1px solid var(--border);border-radius:6px;margin-bottom:7px;overflow:hidden;transition:border-color .2s;}
+.dc.done{background:var(--done-bg);border-color:var(--done-br);opacity:.72;}
+.dc.today{border-color:var(--acc);box-shadow:0 0 18px rgba(232,255,71,.07);}
+.dh{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none;}
+.dn{font-family:monospace;font-size:.65rem;color:var(--muted);width:28px;flex-shrink:0;}
+.dd{font-family:monospace;font-size:.72rem;color:var(--acc2);width:84px;flex-shrink:0;}
+.dt{font-size:.84rem;font-weight:600;flex:1;}
+.tag{font-size:.6rem;font-family:monospace;padding:2px 7px;border-radius:3px;white-space:nowrap;}
+.td1{background:rgba(71,180,255,.12);color:var(--acc2);border:1px solid rgba(71,180,255,.25);}
+.td2{background:rgba(232,255,71,.08);color:var(--acc);border:1px solid rgba(232,255,71,.18);}
+.td3{background:rgba(255,107,71,.12);color:var(--acc3);border:1px solid rgba(255,107,71,.25);}
+.tsim{background:rgba(180,71,255,.12);color:var(--acc4);border:1px solid rgba(180,71,255,.25);}
+.texam{background:var(--acc);color:#000;font-weight:700;}
+.cb{width:20px;height:20px;border:1.5px solid var(--border);border-radius:3px;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;font-size:.7rem;color:#000;}
+.cb:hover{border-color:var(--acc);}
+.cb.done{background:var(--acc);border-color:var(--acc);}
+.chev{color:var(--muted);font-size:.65rem;transition:transform .2s;flex-shrink:0;}
+.chev.op{transform:rotate(90deg);}
+.db{display:none;padding:0 14px 14px;border-top:1px solid var(--border);}
+.db.op{display:block;}
+.bl{margin-top:12px;}
+.blt{font-family:monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.blt::after{content:'';flex:1;height:1px;background:var(--border);}
+.tb{font-size:.62rem;background:var(--surface2);border:1px solid var(--border);padding:1px 6px;border-radius:3px;color:var(--acc2);font-family:monospace;}
+/* WORD TABLE */
+.wt{width:100%;border-collapse:collapse;font-size:.79rem;}
+.wt td{padding:4px 7px;border-bottom:1px solid var(--border);vertical-align:top;}
+.wt tr:last-child td{border-bottom:none;}
+.wt .nl{font-family:monospace;color:var(--acc2);font-weight:600;width:40%;}
+.wt .tr{color:var(--muted);width:30%;}
+.wt .ex{color:var(--text);font-size:.73rem;font-style:italic;}
+.wt tr:hover td{background:var(--surface2);}
+.wt .cat{background:var(--surface2);color:var(--acc);font-family:monospace;font-size:.58rem;letter-spacing:1px;text-transform:uppercase;padding:5px 7px;}
+.wt .cat td{border-bottom:1px solid var(--border);}
+/* PHRASES */
+.pl{list-style:none;}
+.pl li{padding:5px 9px;border-left:2px solid var(--border);margin-bottom:3px;font-size:.8rem;background:var(--surface2);border-radius:0 4px 4px 0;}
+.pl li strong{display:block;font-family:monospace;color:var(--acc);font-size:.77rem;margin-bottom:1px;}
+.pl li span{color:var(--muted);font-size:.71rem;}
+/* OPDRACHT */
+.ob{background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--acc3);border-radius:4px;padding:11px 13px;font-size:.8rem;line-height:1.65;}
+.ob .lbl{font-family:monospace;font-size:.58rem;color:var(--acc3);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+.tip{background:rgba(232,255,71,.05);border:1px solid rgba(232,255,71,.18);border-radius:4px;padding:9px 11px;font-size:.77rem;color:var(--acc);margin-top:8px;}
+.badge{display:inline-block;background:var(--surface2);border:1px solid var(--border);font-size:.6rem;font-family:monospace;padding:1px 5px;border-radius:3px;color:var(--acc4);margin-left:4px;}
+@media(max-width:480px){.dd{width:64px;font-size:.67rem;}.dt{font-size:.78rem;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="htop">
+    <h1>NT2 // Spreken II // 33 Gün // v2.0</h1>
+    <div class="cd" id="cd">⏳ ...</div>
+  </div>
+  <div class="pb"><div class="pf" id="pf" style="width:0%"></div></div>
+  <div class="leg">
+    <div class="li"><div class="dot" style="background:#47b4ff"></div>Deel 1</div>
+    <div class="li"><div class="dot" style="background:#e8ff47"></div>Deel 2</div>
+    <div class="li"><div class="dot" style="background:#ff6b47"></div>Deel 3</div>
+    <div class="li"><div class="dot" style="background:#b447ff"></div>Simülasyon</div>
+    <div class="li"><div class="dot" style="background:#e8ff47;opacity:.4"></div>Tamamlandı</div>
+  </div>
+</header>
+<div class="container" id="mc"></div>
+
+<script>
+const DAYS = [
+// HAFTA 1 - PLAATJES + SOMUT EYLEM KELİMELERİ
+{date:"Prs 22 Mayıs",title:"Plaatjes Temeli - Giysi, Aksesuar & Beden",tag:"d2",tagL:"DEEL 2",
+words:[
+["--- GİYSİ EYLEMLERI ---","",""],
+["aantrekken","giymek","Hij trekt zijn jas aan."],
+["uittrekken / uitdoen","çıkarmak (giysi)","Ze doet haar schoenen uit."],
+["dragen","üstünde giymek","Ze draagt een blauwe jurk."],
+["passen","denemek (kıyafet)","Mag ik dit jasje even passen?"],
+["omhangen","üstüne asmak/giymek","Ze hangt de sjaal om."],
+["dichtknoppen","iliklemek","Hij knoopt zijn hemd dicht."],
+["losmaken","çözmek","Ze maakt de rits los."],
+["de rits dichtdoen/opendoen","fermuarı çekmek/açmak","De rits zit vast."],
+["de veter strikken","ayakkabı bağlamak","Hij strikt zijn veters."],
+["de veter losmaken","bağı çözmek","De veter is losgeraakt."],
+["oprollen (mouwen)","sıvamak (kol)","Hij rolt zijn mouwen op."],
+["--- GİYSİ PARÇALARI ---","",""],
+["de veter / de veters","ayakkabı bağı","De veter is te lang."],
+["de riem","kemer","De riem zit om zijn middel."],
+["de rits","fermuar","De rits is stuk."],
+["de knoop / de knopen","düğme","Er mist een knoop."],
+["de mouw","kol (giysi)","De mouw is te kort."],
+["de kraag","yaka","Hij staat zijn kraag op."],
+["de naad","dikiş yeri","De naad is gescheurd."],
+["de stof / het materiaal","kumaş","De stof voelt zacht aan."],
+["de maat","beden/ölçü","Welke maat heeft u?"],
+["--- AKSESUAR ---","",""],
+["de armband","bilezik","Ze draagt een gouden armband."],
+["de ketting","kolye","Hij heeft een ketting om zijn nek."],
+["de ring","yüzük","Ze heeft een ring aan haar vinger."],
+["de oorbellen","küpe","Ze draagt zilveren oorbellen."],
+["de sjaal","eşarp/atkı","Ze wikkelt de sjaal om haar nek."],
+["de handschoenen","eldiven","Hij trekt handschoenen aan."],
+["de tas / de handtas","çanta","Ze pakt haar tas."],
+["de portemonnee","cüzdan","Hij haalt zijn portemonnee tevoorschijn."],
+["de paraplu","şemsiye","Ze vouwt de paraplu open."],
+],
+phrases:[
+["Zoals u kunt zien op het plaatje...","Resimde gördüğünüz gibi..."],
+["Op de eerste afbeelding is te zien dat...","İlk resimde ... görülüyor"],
+["Vervolgens / daarna...","Ardından / sonra..."],
+["Ten slotte / tot slot...","Son olarak..."],
+["Hij/zij is bezig met + infinitief","...yapmakla meşgul (Hij is bezig met aantrekken)"],
+["Op dit moment...","Şu anda..."],
+],
+opdracht:"Tren dönüş: 3 kıyafet hareketi düşün (giyme, bağlama, çıkarma). Her birini 20 saniyede Hollandaca anlat. 5 kez. Kelimeyi bilmiyorsan 'het is een soort...' ile atla.",
+tip:"Plaatjes sorularında 1 resim = 1 cümle minimum. 'Eerst... daarna... ten slotte...' şablonunu otomatik kullan."},
+
+{date:"Prs 22 Mayıs",title:"Akşam: Deel 1 - Kısa Yanıt & Tercih Kalıpları",tag:"d1",tagL:"DEEL 1",
+words:[
+["--- TERCİH & GÖRÜŞ ---","",""],
+["de voorkeur geven aan","tercih etmek","Ik geef de voorkeur aan thuiswerken."],
+["kiezen voor","seçmek","Ik kies voor de groepscursus."],
+["het liefst","en çok tercih ederek","Ik werk het liefst alleen."],
+["de voorkeur hebben","tercihi olmak","Mijn voorkeur gaat naar X."],
+["eerlijk gezegd","açıkçası","Eerlijk gezegd twijfel ik."],
+["dat ligt eraan","duruma göre değişir","Dat ligt eraan wat het werk is."],
+["zeker weten","kesinlikle bilmek","Dat weet ik zeker."],
+["twijfelen (aan)","tereddüt etmek","Ik twijfel nog."],
+["het maakt me niet uit","fark etmez","Het maakt me niet uit welke dag."],
+["op zich","özünde/esasen","Op zich is het een goed idee."],
+["--- MENING ---","",""],
+["naar mijn mening","benim görüşüme göre","Naar mijn mening is X beter."],
+["volgens mij","bence","Volgens mij klopt dat niet."],
+["ik ben van mening dat","...kanaatindeyim","Ik ben van mening dat het moet veranderen."],
+["ik vind dat","...olduğunu düşünüyorum","Ik vind dat dit niet klopt."],
+["ik denk dat","...düşünüyorum","Ik denk dat X beter is."],
+["persoonlijk","kişisel olarak","Persoonlijk vind ik het een slecht idee."],
+["in mijn ogen","gözümde","In mijn ogen is dit oneerlijk."],
+["wat mij betreft","bana göre","Wat mij betreft mag dat gewoon."],
+["ik sta achter dit plan","bu planı destekliyorum","Ik sta volledig achter dit plan."],
+["ik ben het er niet mee eens","bununla aynı fikirde değilim","Ik ben het er niet mee eens."],
+],
+phrases:[
+["Ik kies voor X, omdat...","X'i seçiyorum, çünkü..."],
+["Ik geef er de voorkeur aan om X te doen, omdat...","X yapmayı tercih ederim çünkü..."],
+["Dat vind ik een goed/slecht idee, want...","Bu bence iyi/kötü bir fikir çünkü..."],
+["Persoonlijk denk ik dat...","Kişisel olarak düşündüğüm şu ki..."],
+["Aan de ene kant... maar aan de andere kant...","Bir yandan... ama öte yandan..."],
+],
+opdracht:"Akşam (30 dk): 2021 Deel 1 Opgave 1-4'ü al. Her biri için zamanlayıcı kur, 20 saniyede söyle. Kaydet. Dinle. Hangi kelimeyi bulamadın? Yaz.",
+tip:"20 saniye = 2 cümle. Cümle 1: net tercih. Cümle 2: tek neden. Fazlası puana katkı sağlamaz."},
+
+{date:"Cmt 24 Mayıs",title:"Ev & Bahçe & Taşınma - Plaatjes (2022+2024 stili)",tag:"d2",tagL:"DEEL 2",
+words:[
+["--- BAHÇE / YAPIM ---","",""],
+["de vijver","gölet","Hij legt een vijver aan."],
+["aanleggen","kurmak/inşa etmek","Ze leggen een weg aan."],
+["graven","kazmak","Hij graaft een gat."],
+["het gat","çukur/delik","Eerst moet u een gat graven."],
+["de folie","folyo/örtü","Daarna legt u de folie erin."],
+["neerleggen","yere koymak","Leg de folie neer."],
+["vollopen","dolmak (su ile)","De vijver loopt vol met water."],
+["de slang","hortum","Hij gebruikt een slang."],
+["de schop","kürek","Hij pakt de schop."],
+["de aarde / de grond","toprak","De aarde is zacht."],
+["het gereedschap","alet/takım","Hij heeft gereedschap nodig."],
+["--- OFİS/ODA HAZIRLAMA (2024) ---","",""],
+["schilderen","boyamak","De kamer wordt geschilderd."],
+["de schilder","ressam/boyacı","De schilder komt morgen."],
+["de stekker","elektrik fişi","Trek de stekker eruit."],
+["loskoppelen","bağlantısını kesmek","Koppel de computer los."],
+["inpakken","paketlemek/sarmak","De spullen moeten worden ingepakt."],
+["de doos / dozen","kutu","Doe de mappen in dozen."],
+["verplaatsen","taşımak/yerini değiştirmek","Verplaats de computer."],
+["losmaken","sökmek/ayırmak","Maak de kabels los."],
+["de kabel","kabel","De kabels moeten worden losgemaakt."],
+["opruimen","toplamak/düzenlemek","Ruim de spullen op."],
+["neerzetten","koymak/yerleştirmek","Zet de dozen neer."],
+["--- TAŞINMA / GENEL ---","",""],
+["verhuizen","taşınmak","Ze verhuizen naar een nieuw huis."],
+["de verhuisdoos","taşınma kutusu","De verhuisdozen staan klaar."],
+["de meubels","mobilya","De meubels worden verplaatst."],
+["inrichten","düzenlemek/döşemek","Ze richten het nieuwe huis in."],
+["de klusjesman","tamirci/usta","De klusjesman repareert het."],
+],
+phrases:[
+["Als eerste moet u...","İlk önce ... yapmalısınız"],
+["Vervolgens / daarna doet u...","Ardından ... yaparsınız"],
+["Nadat u X heeft gedaan, kunt u Y...","X'i yaptıktan sonra Y yapabilirsiniz"],
+["Het is belangrijk om... te...","... yapmak önemli"],
+["Zorg ervoor dat... voordat...","... yapmadan önce ... sağlayın"],
+["Let erop dat...","Dikkat edin ki..."],
+],
+opdracht:"Tren gidiş: 2022 Deel 2 Opgave 10 (vijver aanleggen) + 2024 Deel 2 Opgave 5 (kamer verven, 3 plaatje) - her biri 30 sn, 5 kez.",
+tip:"'Eerst -> vervolgens -> daarna -> nadat -> tot slot' - bu 5 kelime plaatjes sorularının iskeletidir."},
+
+{date:"Paz 25 Mayıs",title:"Sağlık, Vücut & Ziekenhuis - Geniş Liste",tag:"d2",tagL:"DEEL 2",
+words:[
+["--- VÜCUT PARÇALARI ---","",""],
+["de knie","diz","Zijn knie doet pijn."],
+["de enkel","ayak bileği","Ze heeft haar enkel verzwikt."],
+["de pols","bilek (el)","Hij heeft pijn aan zijn pols."],
+["de schouder","omuz","Zijn schouder is geblesseerd."],
+["de rug","sırt","Ze heeft rugpijn."],
+["de elleboog","dirsek","Hij stoot zijn elleboog."],
+["de heup","kalça","De heup is geopereerd."],
+["de nek","boyun","Ze heeft nekpijn."],
+["de keel","boğaz","Zijn keel is ontstoken."],
+["--- ZIEKENHUIS / BEHANDELING ---","",""],
+["de fysiotherapie","fizyoterapi","Hij heeft fysiotherapie nodig."],
+["de fysiotherapeut","fizyoterapist","De fysiotherapeut behandelt hem."],
+["de huisarts","aile hekimi","De huisarts verwijst hem door."],
+["doorverwijzen naar","sevk etmek","Ze wordt doorverwezen naar een specialist."],
+["de specialist","uzman doktor","De specialist bekijkt de röntgenfoto."],
+["de verpleegkundige","hemşire","Ze werkt als verpleegkundige."],
+["de patiënt","hasta","De patiënt heeft pijn."],
+["een injectie geven","enjeksiyon yapmak","Ze geeft de patiënt een injectie."],
+["de temperatuur opnemen","ateş ölçmek","Ze neemt de temperatuur op."],
+["het infuus","serum","Hij krijgt een infuus."],
+["de rolstoel","tekerlekli sandalye","Hij zit in een rolstoel."],
+["verbinden","sarmak (yara)","Ze verbindt zijn wond."],
+["opnemen (ziekenhuis)","yatırmak","Hij wordt opgenomen."],
+["ontslaan (ziekenhuis)","taburcu etmek","Ze wordt morgen ontslagen."],
+["de wond","yara","De wond moet worden verzorgd."],
+["het recept","reçete","De dokter schrijft een recept."],
+["slikken","yutmak (ilaç)","Slik de pil drie keer per dag."],
+["bijwerkingen","yan etkiler","Dit medicijn heeft bijwerkingen."],
+["--- BLESSURE / HERSTEL ---","",""],
+["de blessure","sakatlık","Hij heeft een blessure opgelopen."],
+["herstellen","iyileşmek","Hij moet eerst herstellen."],
+["rust houden","istirahat etmek","U moet rust houden."],
+["revalideren","rehabilitasyon yapmak","Ze revalideert na de operatie."],
+["verzwikken","burkmak","Ze heeft haar enkel verzwikt."],
+["breken","kırmak","Hij heeft zijn been gebroken."],
+["het gips","alçı","Zijn been zit in het gips."],
+["de kruk","koltuk değneği","Hij loopt op krukken."],
+["de operatie","ameliyat","Ze heeft een operatie ondergaan."],
+["de pijn verlichten","ağrıyı azaltmak","Dit medicijn verlicht de pijn."],
+["--- GEZONDHEID ALGEMEEN ---","",""],
+["bewegen","hareket etmek","Regelmatig bewegen is gezond."],
+["de leefstijl","yaşam tarzı","Een gezonde leefstijl is belangrijk."],
+["de preventie","önleyici sağlık","Preventie is beter dan behandeling."],
+["overgewicht","fazla kilo","Overgewicht is een groot probleem."],
+["de voeding","beslenme","Gezonde voeding is essentieel."],
+["de zorgverzekering","sağlık sigortası","Zijn zorgverzekering dekt dit."],
+],
+phrases:[
+["Ik heb al weken last van...","Haftalardır ... sorunum var"],
+["Ik vind dat X nodig/belangrijk is, omdat...","X'in gerekli/önemli olduğunu düşünüyorum çünkü..."],
+["Bovendien heeft dit invloed op mijn werk/studie","Ayrıca bu işimi/öğrenimimi etkiliyor"],
+["Ik begrijp uw standpunt, maar ik denk dat...","Görüşünüzü anlıyorum ama düşünüyorum ki..."],
+["Zou het niet beter zijn om...?","... yapmak daha iyi olmaz mı?"],
+["Ten eerste... en bovendien...","Birincisi... ve ayrıca..."],
+],
+opdracht:"Akşam: 2012 Deel 2 Opgave 6 (fysiotherapie, huisarts overtuigen) - 30 sn, min. 2 neden. Sonra 2012 Deel 2 Opgave 8 (arts, been gebroken, tijden + plaatjes) - 30 sn.",
+tip:"'Ik heb al weken last van...' sağlık sorularının %80'ini açar. Ezberle."},
+
+{date:"Pzt 26 Mayıs",title:"TREN: Opleiding, Stage & School",tag:"d1",tagL:"DEEL 1",
+words:[
+["--- OPLEIDING ---","",""],
+["de opleiding volgen","eğitim/program izlemek","Ze volgt een opleiding verpleegkunde."],
+["stage lopen","staj yapmak","Hij loopt stage in een ziekenhuis."],
+["de stagiaire","stajyer","De stagiaire vraagt wat ze moet doen."],
+["begeleiden","rehberlik etmek","Hij begeleidt de stagiaire."],
+["afstuderen","mezun olmak","Ze studeert volgend jaar af."],
+["de scriptie","tez","Ze schrijft een scriptie over milieu."],
+["het werkstuk","ödev/proje","Het werkstuk moet klaar zijn."],
+["de opdracht","görev/ödev","Ze heeft een nieuwe opdracht gekregen."],
+["de medestudent","sınıf arkadaşı","Haar medestudent helpt haar."],
+["de docent","öğretmen (yüksek)","De docent geeft uitleg."],
+["de hogeschool","HBO üniversitesi","Ze studeert aan een hogeschool."],
+["de universiteit","üniversite","Hij studeert aan de universiteit."],
+["het cijfer","not","Ze heeft een goed cijfer gehaald."],
+["inleveren","teslim etmek","Het werkstuk moet worden ingeleverd."],
+["samenwerken","iş birliği yapmak","Ze werken samen aan het project."],
+["de deadline","son teslim tarihi","De deadline is vrijdag."],
+["--- STUDIE KEUZELER ---","",""],
+["zelfstudie","bireysel çalışma","Ze doet het via zelfstudie."],
+["de groepscursus","grup kursu","De groepscursus is leuker."],
+["klassikaal","sınıf ortamında","Klassikaal leren werkt beter."],
+["de bijscholing","ek eğitim","Ze volgt bijscholing voor haar werk."],
+["het diploma","diploma","Ze heeft haar diploma gehaald."],
+["de cursus","kurs","Hij volgt een computercursus."],
+["de cursist / de deelnemer","kursiyer/katılımcı","De cursisten zijn tevreden."],
+["het certificaat","sertifika","Ze heeft een certificaat behaald."],
+["slagen voor","geçmek (sınav)","Ze is geslaagd voor haar examen."],
+["zakken voor","kalmak (sınav)","Hij is gezakt voor het rijexamen."],
+["--- PRESENTATIE (2024) ---","",""],
+["de presentatie houden","sunum yapmak","Ze houdt een presentatie voor de klas."],
+["vragen stellen tijdens/na","soru sormak sırasında/sonrasında","Vragen stellen ná de presentatie."],
+["de toehoorder","dinleyici","De toehoorders stellen vragen."],
+["samenvatten","özetlemek","Ze vat de presentatie samen."],
+["de conclusie trekken","sonuç çıkarmak","Hij trekt een conclusie."],
+],
+phrases:[
+["Voor mijn opleiding moet ik...","Eğitimim için ... yapmam gerekiyor"],
+["Ik heb gekozen voor X omdat...","X'i seçtim çünkü..."],
+["Ik werk liever samen/alleen omdat...","Birlikte/yalnız çalışmayı tercih ederim çünkü..."],
+["Ik denk dat X meer voordelen heeft dan Y","X'in Y'den daha fazla avantajı var"],
+["Mijn advies is om X te doen, omdat...","Tavsiyem X yapmak çünkü..."],
+],
+opdracht:"Tren dönüş: 2023 Opgave 1 (stage/scriptie) + 2024 Opgave 4 (vragen tijdens/na presentatie) - her biri 20 sn. 2024 Opgave 2 (avondcollege) - 20 sn görüş ver.",
+tip:"Deel 1'de cevap 2 cümleyi geçmemeli. Fazla konuşmak zaman kaybı."},
+
+{date:"Sal 27 Mayıs",title:"İkna Etme - Overtuigen & Onderhandelen",tag:"d2",tagL:"DEEL 2",
+words:[
+["--- İKNA ---","",""],
+["overtuigen","ikna etmek","Hij probeert haar te overtuigen."],
+["er begrip voor hebben","anlayış göstermek","Ik hoop dat u er begrip voor heeft."],
+["bereid zijn om","yapmaya hazır olmak","Ik ben bereid om dat te doen."],
+["in ruil daarvoor","karşılığında","In ruil daarvoor werk ik volgend weekend."],
+["een voorstel doen","öneri yapmak","Ik doe een voorstel."],
+["een alternatief aanbieden","alternatif sunmak","Ik bied een alternatief aan."],
+["het belang inzien van","önemini görmek","Ik zie het belang in van goede communicatie."],
+["--- DIENST / WERK ---","",""],
+["een dienst overnemen","vardiyayı devralmak","Kunt u mijn dienst overnemen?"],
+["ruilen","takas etmek","Kunnen we van dienst ruilen?"],
+["het zou me erg helpen als","eğer ... çok yardımcı olurdu","Het zou me erg helpen als u dit doet."],
+["ik sta bij u in het krijt","size borçlu olacağım","Ik sta bij u in het krijt."],
+["afspreken","anlaşmak","Kunnen we iets afspreken?"],
+["dringend","acil","Dit is dringend."],
+["een uitzondering maken","istisna yapmak","Kunt u een uitzondering maken?"],
+["--- ARGUMENT STRUCTUUR ---","",""],
+["ten eerste","birincisi","Ten eerste is het te ver rijden."],
+["ten tweede","ikincisi","Ten tweede kost het veel tijd."],
+["bovendien","ayrıca/bunun yanı sıra","Bovendien is het gevaarlijk."],
+["daarnaast","bunun yanında","Daarnaast zijn er andere opties."],
+["echter","ancak/bununla birlikte","Dit is echter niet de enige oplossing."],
+["toch","yine de","Toch vind ik dat we het moeten proberen."],
+["immers","çünkü/zira","Het is immers al laat."],
+["namelijk","çünkü/yani (açıklama)","Hij kan niet komen, hij is namelijk ziek."],
+["omdat","çünkü","Ik kom niet omdat ik ziek ben."],
+["zodat","böylece/sonuç olarak","Doe dit, zodat het beter gaat."],
+["terwijl","...iken/oysa","Terwijl hij ziek was, werkte ze door."],
+["wanneer","ne zaman/...dığında","Wanneer u dit doet, kan ik helpen."],
+],
+phrases:[
+["Ik begrijp dat het lastig is, maar...","Bunun zor olduğunu biliyorum ama..."],
+["Zou u bereid zijn om...? Ik zou dan...","... yapmaya razı olur musunuz? Ben de ..."],
+["Het is erg belangrijk voor mij omdat...","Bu benim için çok önemli çünkü..."],
+["Ik beloof dat ik... zal...","... yapacağıma söz veriyorum"],
+["Dit is een win-win situatie: u krijgt X en ik krijg Y","Bu kazan-kazan durumu"],
+],
+opdracht:"Akşam: 2023 Opgave 3 (weekenddienst overnemen) + 2024 Opgave 6 (tas in restaurant, niet terugrijden) - her biri 30 sn. İkna formülü: 1) kendi durum, 2) karşı tarafın kazancı, 3) somut teklif.",
+tip:"İkna sorularında sadece 'nee' demek yeterli değil - alternatif teklif şart."},
+
+{date:"Çar 28 Mayıs",title:"Ulaşım, Vervoer & Reizen - Tam Liste",tag:"d2",tagL:"DEEL 2",
+words:[
+["--- ULAŞIM ARAÇLARI ---","",""],
+["het vervoermiddel","ulaşım aracı","Welk vervoermiddel gebruikt u?"],
+["het openbaar vervoer","toplu taşıma","Ze reist met het openbaar vervoer."],
+["de trein","tren","De trein vertrekt om 9 uur."],
+["de bus","otobüs","Ze neemt de bus naar het werk."],
+["de metro","metro","Hij neemt de metro."],
+["de fiets","bisiklet","Ze gaat met de fiets."],
+["het vliegtuig","uçak","De vlucht vertrekt om 8 uur."],
+["de boot","tekne/feribot","Ze reist met de boot."],
+["de auto","araba","Hij rijdt met de auto."],
+["carpoolen","araç paylaşmak","Ze carpoolen naar het werk."],
+["--- TREIN / OV ---","",""],
+["de reistijd","seyahat süresi","De reistijd is één uur."],
+["de vertraging","gecikme","Er is een vertraging van 20 minuten."],
+["het abonnement","abonelik","Hij heeft een OV-abonnement."],
+["de dienstregeling","sefer tarifesi","Kijk op de dienstregeling."],
+["het perron","peron","De trein vertrekt van perron 4."],
+["missen (trein)","kaçırmak","Hij heeft de trein gemist."],
+["overstappen","aktarma yapmak","Ze stapt over in Utrecht."],
+["de OV-chipkaart","OV kart","Ze heeft haar OV-chipkaart vergeten."],
+["inchecken / uitchecken","giriş / çıkış yapmak","Vergeet niet uit te checken."],
+["--- VLIEGTUIG ---","",""],
+["de vlucht","uçuş","De vlucht is vertraagd."],
+["inchecken","check-in yapmak","U moet twee uur voor vertrek inchecken."],
+["de bagage","bagaj","Zijn bagage is kwijt."],
+["de douane","gümrük","Ze loopt door de douane."],
+["de beveiligingspoort","güvenlik kapısı","Ze gaat door de beveiligingspoort."],
+["de handbagage","el bagajı","De handbagage mag 10 kilo zijn."],
+["--- KOSTEN / VERGELIJKING ---","",""],
+["de kosten","masraflar","De kosten zijn hoger dan verwacht."],
+["de vergoeding","geri ödeme","Het bedrijf geeft een vergoeding."],
+["de file","trafik sıkışıklığı","Er staat een lange file."],
+["de reiskosten","seyahat masrafları","De reiskosten worden vergoed."],
+["goedkoper / duurder","daha ucuz / daha pahalı","De trein is goedkoper."],
+["sneller / langzamer","daha hızlı / daha yavaş","De fiets is langzamer maar gezonder."],
+["comfortabeler","daha konforlu","De trein is comfortabeler dan de bus."],
+["milieuvriendelijk","çevre dostu","De fiets is milieuvriendelijker."],
+],
+phrases:[
+["Ik adviseer u om X te nemen omdat...","X almanızı tavsiye ederim çünkü..."],
+["Vergeleken met X is Y goedkoper/sneller","X ile karşılaştırıldığında Y daha ucuz/hızlı"],
+["Het grootste voordeel van X is dat...","X'in en büyük avantajı şu ki..."],
+["Aan de andere kant heeft X ook nadelen...","Öte yandan X'in de dezavantajları var"],
+["Mijn aanbeveling is daarom...","Bu nedenle tavsiyem şu..."],
+],
+opdracht:"Tren gidiş (ironi): Trende giderken bu yolculuğu Deel 2 sorusu gibi anlat - 'U neemt de trein van Den Haag naar Amsterdam...' Sesli, 30 sn.",
+tip:"2023 Deel 3 ve 2024 Deel 3 her ikisi de vervoer/milieu temalı grafik soruydu - bu tema 3. yıldır çıkıyor."},
+
+// HAFTA 2 - DEEL 3 + KANAAT
+{date:"Per 29 Mayıs",title:"DEEL 3 - Grafik Okuma & Araştırma Dili",tag:"d3",tagL:"DEEL 3",
+words:[
+["--- ONDERZOEK ---","",""],
+["het onderzoek","araştırma","Het onderzoek toont aan dat..."],
+["de resultaten","sonuçlar","De resultaten zijn opvallend."],
+["de conclusie","sonuç","De conclusie is dat..."],
+["opvallend","dikkat çekici","Het meest opvallende is..."],
+["aantonen","kanıtlamak","Het onderzoek toont aan dat..."],
+["uitvoeren","yürütmek","Er is een onderzoek uitgevoerd."],
+["enquête houden","anket yapmak","Er is een enquête gehouden."],
+["de respondent","katılımcı","De respondenten zijn gevraagd..."],
+["--- GRAFİK DİLİ ---","",""],
+["stijgen","artmak/yükselmek","Het percentage is gestegen."],
+["dalen","azalmak/düşmek","Het gebruik is gedaald."],
+["de stijging","artış","Er is een duidelijke stijging."],
+["de daling","düşüş","De daling is zorgwekkend."],
+["het percentage","yüzde","Het percentage is verdubbeld."],
+["verdubbelen","ikiye katlamak","Het is verdubbeld in 15 jaar."],
+["halveren","yarıya indirmek","Het aantal is gehalveerd."],
+["vergelijken","karşılaştırmak","Als we de grafieken vergelijken..."],
+["het verschil","fark","Het grootste verschil is zichtbaar bij..."],
+["de trend","eğilim","De trend is duidelijk zichtbaar."],
+["toenemen","artmak","Het gebruik neemt toe."],
+["afnemen","azalmak","De populariteit neemt af."],
+["de helft","yarısı","De helft van de mensen kiest voor..."],
+["het merendeel","büyük çoğunluk","Het merendeel kiest voor X."],
+["een minderheid","azınlık","Slechts een minderheid gebruikt Y."],
+["het gemiddelde","ortalama","Het gemiddelde ligt op 40%."],
+["verreweg het meest","açık ara en fazla","Verreweg het meest gebruikt is X."],
+["slechts","yalnızca","Slechts 5% kiest voor de trein."],
+["bijna de helft","neredeyse yarısı","Bijna de helft reist per vliegtuig."],
+["drie keer zo veel","3 kat daha fazla","Dit is drie keer zo veel."],
+["--- OORZAAK / GEVOLG ---","",""],
+["de oorzaak","neden","Een mogelijke oorzaak is..."],
+["de maatregel","önlem","Er zijn maatregelen nodig."],
+["aanbevelen","tavsiye etmek","Ik beveel aan om..."],
+["de aanbeveling","tavsiye","Mijn aanbeveling is X."],
+["verklaren","açıklamak","Dit kan worden verklaard door..."],
+["de verklaring","açıklama","Een mogelijke verklaring is..."],
+["--- GELUID (2024) ---","",""],
+["de geluidsoverlast","gürültü kirliliği","Inwoners klagen over geluidsoverlast."],
+["het verkeer","trafik","Verkeer veroorzaakt veel geluid."],
+["de buren","komşular","Buren maken 's nachts lawaai."],
+["het bedrijf","işletme","Bedrijven zorgen voor geluidsoverlast."],
+["verminderen","azaltmak","De overlast moet worden verminderd."],
+["een voorbeeld geven","örnek vermek","Geef een voorbeeld bij elk type."],
+],
+phrases:[
+["Zoals u kunt zien in de grafiek...","Grafikte görebileceğiniz gibi..."],
+["Het meest opvallende resultaat is dat...","En dikkat çekici sonuç şu ki..."],
+["Als we X vergelijken met Y, zien we dat...","X'i Y ile karşılaştırdığımızda ... görüyoruz"],
+["Een mogelijke verklaring hiervoor is...","Bunun olası bir açıklaması şu..."],
+["Op basis van deze resultaten stel ik voor om...","Bu sonuçlara dayanarak ... öneririm"],
+["Wat betreft X, zien we dat...","X konusunda şunu görüyoruz..."],
+["Tot slot wil ik benadrukken dat...","Son olarak şunu vurgulamak istiyorum..."],
+],
+opdracht:"Tren gidiş: 2024 Deel 3 (geluidsoverlast grafiek: verkeer 45%, buren 20%, bedrijven 20%) - 2 dakika konuş. Yapı: [giriş 15sn] [grafik 45sn: elk type + voorbeeld] [twee maatregelen 45sn] [conclusie 15sn].",
+tip:"2024'te yeni kriter: elk type geluidsoverlast için ÖRNEĞİ ayrı söyle. Bu 2023'te yoktu - pattern değişti."},
+
+{date:"Per 29 Mayıs",title:"Akşam: Deel 3 - 2023 Grafik Pratik",tag:"d3",tagL:"DEEL 3",
+words:[
+["--- PROMOTEN ---","",""],
+["promoten","tanıtmak/teşvik etmek","Hoe kunnen we de trein promoten?"],
+["motiveren","motive etmek","We moeten mensen motiveren."],
+["stimuleren","teşvik etmek","De overheid kan dit stimuleren."],
+["subsidie geven","sübvansiyon vermak","Er kan subsidie worden gegeven."],
+["bewust maken van","bilinçlendirmek","We moeten mensen bewust maken."],
+["een campagne voeren","kampanya yürütmek","Een campagne kan helpen."],
+["kortingen aanbieden","indirim sunmak","Kortingen kunnen mensen overtuigen."],
+["de infrastructuur verbeteren","altyapıyı iyileştirmak","Betere infrastructuur trekt meer reizigers."],
+],
+phrases:[
+["In vergelijking met vroeger / X jaar geleden...","Eskiyle / X yıl önceyle karşılaştırıldığında..."],
+["Dit is opmerkelijk omdat...","Bu dikkat çekici çünkü..."],
+["Mijn voorkeur heeft optie X, omdat het zowel X als Y biedt.","X seçeneğini tercih ederim çünkü hem X hem Y sunuyor."],
+],
+opdracht:"Akşam: 2023 Deel 3 (vervoer NL-Engeland grafiek) - 2 dakika. Kaydet.",
+tip:null},
+
+{date:"Cmt 31 Mayıs",title:"Werk & Kantoor - Volledige Woordenlijst",tag:"d2",tagL:"DEEL 2",
+words:[
+["--- KANTOOR / ORGANISATIE ---","",""],
+["de vergadering","toplantı","Er is een vergadering om 10 uur."],
+["de notulen","toplantı tutanağı","Ze maakt de notulen."],
+["de agenda","gündem/ajanda","Wat staat er op de agenda?"],
+["de afdeling","departman","Hij werkt op de afdeling financiën."],
+["de leidinggevende","amir/yönetici","De leidinggevende geeft feedback."],
+["de directeur","genel müdür","De directeur neemt de beslissing."],
+["de medewerker","çalışan","De medewerkers zijn tevreden."],
+["de secretaresse","sekreter","De secretaresse regelt afspraken."],
+["het personeel","personel","Het personeel is goed opgeleid."],
+["--- İŞ YERİ ---","",""],
+["overwerken","fazla mesai yapmak","Hij moet vanavond overwerken."],
+["de dienst","vardiya/görev","Ze heeft een vroege dienst."],
+["de werkdruk","iş yükü","De werkdruk is te hoog."],
+["ziek melden","hastalanmak bildirmek","Ze heeft zich ziek gemeld."],
+["vervangen","yerine geçmek","Kan iemand haar vervangen?"],
+["storen","rahatsız etmek","Ik wil niet gestoord worden."],
+["doorverbinden","bağlamak (tel.)","Kunt u me doorverbinden?"],
+["de klant","müşteri","De klant wacht al lang."],
+["de opdrachtgever","işveren/müşteri","De opdrachtgever is tevreden."],
+["het contract","sözleşme","Het contract is ondertekend."],
+["de factuur","fatura","De factuur moet worden betaald."],
+["--- THUISWERKEN ---","",""],
+["thuiswerken","evden çalışmak","Ze werkt twee dagen thuis."],
+["flexibel werken","esnek çalışmak","Flexibel werken heeft voordelen."],
+["de thuiswerkplek","ev çalışma alanı","Ze heeft een goede thuiswerkplek."],
+["de videoconferentie","görüntülü toplantı","Ze neemt deel aan een videoconferentie."],
+["samenwerken op afstand","uzaktan iş birliği yapmak","Samenwerken op afstand is soms lastig."],
+["--- LOOPBAAN ---","",""],
+["de loopbaan","kariyer","Ze heeft een mooie loopbaan opgebouwd."],
+["de sollicitatie","iş başvurusu","Ze heeft een sollicitatie gedaan."],
+["de arbeidsmarkt","iş piyasası","De arbeidsmarkt is krap."],
+["de functie","görev/pozisyon","Ze solliciteert op een nieuwe functie."],
+["de ervaring","deneyim","Ze heeft veel werkervaring."],
+["de vaardigheden","beceriler","Ze heeft goede communicatieve vaardigheden."],
+["het functioneringsgesprek","performans görüşmesi","Het functioneringsgesprek is morgen."],
+["promotie maken","terfi etmek","Hij heeft promotie gemaakt."],
+["ontslag nemen","istifa etmek","Ze heeft ontslag genomen."],
+["de burn-out","tükenmişlik","Hij heeft een burn-out."],
+],
+phrases:[
+["Ik bel om te vragen of u...","... isteyip istemediğinizi sormak için arıyorum"],
+["Kunt u ervoor zorgen dat...?","... için önlem alabilir misiniz?"],
+["Ik wil u laten weten dat...","Size ... bildirmek istiyorum"],
+["Zou het mogelijk zijn om...?","... mümkün olur mu?"],
+["Ik neem zo snel mogelijk contact op.","En kısa sürede iletişime geçeceğim."],
+],
+opdracht:"Tren dönüş: 2023 Opgave 11 (niet storen) + 2023 Opgave 3 (weekenddienst) + 2022 Opgave 12 (werknemer sport) - her biri 30 sn.",
+tip:null},
+
+{date:"Paz 1 Haz",title:"Wonen, Buurt & Gemeente - Tam Liste",tag:"d2",tagL:"DEEL 2",
+words:[
+["--- WONINGPROBLEMEN ---","",""],
+["de overlast","rahatsızlık/gürültü","Ze hebben last van geluidsoverlast."],
+["klagen over","şikayet etmek","De buren klagen over het lawaai."],
+["een klacht indienen","şikayette bulunmak","Hij dient een klacht in."],
+["de huurverhoging","kira artışı","De woningbouwvereniging verhoogt de huur."],
+["de woningbouwvereniging","konut derneği","Ze belt de woningbouwvereniging."],
+["de huurder","kiracı","De huurder is het er niet mee eens."],
+["de verhuurder","ev sahibi","De verhuurder reageert niet."],
+["de woningnood","konut sıkıntısı","Er is grote woningnood in Nederland."],
+["betaalbaar wonen","uygun fiyatlı konut","Betaalbaar wonen is een groot probleem."],
+["--- VEİLİGHEİD / BEVEİLİGİNG ---","",""],
+["de inbraak","hırsızlık/ev soygunu","Er is inbraak gepleegd."],
+["de beveiliging","güvenlik","Ze verbetert de beveiliging."],
+["het slot","kilit","Het slot is kapot."],
+["het alarm","alarm","Het alarm gaat af."],
+["de bewakingscamera","güvenlik kamerası","Er hangen bewakingscamera's."],
+["het politiebureau","karakol","Ze gaat naar het politiebureau."],
+["aangifte doen","şikayette bulunmak","Ze doet aangifte van de inbraak."],
+["--- BUURT / GEMEENTE ---","",""],
+["de buurt / de wijk","mahalle","Ze wonen in een rustige buurt."],
+["de wijkcommissie","mahalle komitesi","De wijkcommissie vergadert."],
+["de gemeente","belediye","Ze belt de gemeente."],
+["de ambtenaar","memur","De ambtenaar geeft antwoord."],
+["de glascontainer","cam kumbarası","De glascontainer staat op straat."],
+["het parkeerprobleem","park sorunu","Er zijn veel parkeerproblemen."],
+["de verkeersveiligheid","trafik güvenliği","De verkeersveiligheid moet beter."],
+["de maximumsnelheid","hız limiti","De maximumsnelheid is 30 km/u."],
+["de voetganger","yaya","De voetganger heeft voorrang."],
+["de fietser","bisikletçi","Er zijn te weinig fietspaden."],
+["--- BEWONERSİNSPRAAK ---","",""],
+["inspreken","görüş bildirmek","Ze wil inspreken bij de gemeenteraad."],
+["de gemeenteraad","belediye meclisi","De gemeenteraad vergadert vanavond."],
+["het voorstel","öneri","Ze doet een voorstel aan de gemeente."],
+["het bezwaar maken","itiraz etmek","Hij maakt bezwaar tegen het plan."],
+["de petitie","dilekçe","Ze tekent een petitie."],
+],
+phrases:[
+["Ik bel / kom naar u toe omdat ik last heb van...","...dan rahatsız olduğum için arıyorum/geliyorum"],
+["Dit heeft de volgende gevolgen:","Bunun şu sonuçları var:"],
+["Ik zou willen dat u... zodat...","... yapmanızı istiyorum, böylece..."],
+["Dit kan niet zo doorgaan.","Bu böyle devam edemez."],
+["Heeft u hier een oplossing voor?","Bunun için bir çözümünüz var mı?"],
+],
+opdracht:"Akşam: 2023 Opgave 5 (buurvrouw overlast) + 2024 Deel 3 (geluidsoverlast grafiek, gemeente) - 2 dakika.",
+tip:"Şikayet formülü: 1) durumu açıkla -> 2) İKİ spesifik problem -> 3) çözüm öner. Üçü olmadan puan tam gelmiyor."},
+
+{date:"Pzt 2 Haz",title:"TREN: Media, Internet & Maatschappij",tag:"d1",tagL:"DEEL 1",
+words:[
+["--- MEDIA / INTERNET ---","",""],
+["de social media","sosyal medya","Social media heeft veel invloed."],
+["de privacy","mahremiyet","Privacy op internet is belangrijk."],
+["de bewakingscamera","güvenlik kamerası","Er komen meer bewakingscamera's."],
+["online bestellen","internet'ten sipariş vermek","Ze bestelt alles online."],
+["thuisbezorgd worden","eve teslim edilmek","Het pakket wordt thuisbezorgd."],
+["de informatiebeveiliging","bilgi güvenliği","Informatiebeveiliging is cruciaal."],
+["de nepnieuws","sahte haber","Nepnieuws verspreidt zich snel."],
+["--- MAATSCHAPPIJ ---","",""],
+["de samenleving","toplum","Dit heeft gevolgen voor de samenleving."],
+["de overheid","hükümet/devlet","De overheid moet ingrijpen."],
+["de wet","kanun","De wet moet worden aangepast."],
+["verplicht stellen","zorunlu kılmak","Sport verplicht stellen is een slecht idee."],
+["de vrijheid","özgürlük","Dit beperkt de persoonlijke vrijheid."],
+["de verantwoordelijkheid","sorumluluk","Dit is ieders verantwoordelijkheid."],
+["het risico","risk","Er zijn risico's aan verbonden."],
+["effectief","etkili","Deze maatregel is niet effectief."],
+["de tegenstander","karşı çıkan","Hij is tegenstander van dit plan."],
+["de voorstander","destekleyen","Ze is voorstander van strengere regels."],
+["--- MENING VORMEN ---","",""],
+["het standpunt","görüş/tutum","Wat is uw standpunt?"],
+["het argument","argüman","Geef twee argumenten."],
+["verdedigen","savunmak","Ze verdedigt haar standpunt."],
+["beargumenteren","gerekçelendirmek","Kunt u dat beargumenteren?"],
+["nuanceren","nüanslandırmak","Ik wil dit nuanceren."],
+],
+phrases:[
+["Enerzijds... maar anderzijds...","Bir yandan... öte yandan..."],
+["Ik vind dit een zorgelijke ontwikkeling omdat...","Bunu endişe verici bir gelişme olarak görüyorum çünkü..."],
+["Hoewel X voordelen heeft, denk ik dat...","X'in avantajları olsa da düşünüyorum ki..."],
+["Dit gaat ten koste van de persoonlijke vrijheid.","Bu kişisel özgürlüğü kısıtlıyor."],
+],
+opdracht:"Tren dönüş: 2017 Deel 2 Opgave 15 (internet bestellen) + 2012 Deel 2 Opgave 9 (bewakingscamera's) - 30 sn her biri.",
+tip:null},
+
+{date:"Sal 3 Haz",title:"Milieu & Duurzaamheid - Geniş Liste",tag:"d2",tagL:"DEEL 2",
+words:[
+["--- MILIEU ---","",""],
+["het milieu","çevre","Het milieu moet beschermd worden."],
+["duurzaam","sürdürülebilir","Ze kiest voor duurzame producten."],
+["de uitstoot","emisyon","De CO2-uitstoot moet omlaag."],
+["het broeikaseffect","sera etkisi","Het broeikaseffect neemt toe."],
+["de klimaatverandering","iklim değişikliği","Klimaatverandering is een groot probleem."],
+["de vervuiling","kirlilik","Luchtvervuiling is schadelijk."],
+["het energieverbruik","enerji tüketimi","Het energieverbruik moet lager."],
+["hernieuwbare energie","yenilenebilir enerji","We moeten overstappen op hernieuwbare energie."],
+["zonnepanelen","güneş panelleri","Ze hebben zonnepanelen op het dak."],
+["het windmolenpark","rüzgar çiftliği","Er komen meer windmolens."],
+["--- AFVAL ---","",""],
+["het afval scheiden","çöp ayırmak","Je moet afval scheiden in Nederland."],
+["recyclen","geri dönüştürmek","Glas en papier worden gerecycled."],
+["de container","konteyner","Gooi het in de juiste container."],
+["de voedselverspilling","gıda israfı","Voedselverspilling moet worden verminderd."],
+["--- GEDRAG ---","",""],
+["bewust omgaan met","bilinçli kullanmak","Ze gaat bewust om met energie."],
+["besparen","tasarruf etmek","We kunnen energie besparen."],
+["de voetafdruk","ayak izi","Mijn ecologische voetafdruk is groot."],
+["de subsidie","teşvik/sübvansiyon","Er is subsidie voor zonnepanelen."],
+["het beleid","politika/plan","De overheid voert een groen beleid."],
+["--- TRANSPORT & MILIEU ---","",""],
+["de CO2-uitstoot verminderen","CO2 emisyonunu azaltmak","We moeten de uitstoot verminderen."],
+["elektrisch rijden","elektrikli araç kullanmak","Ze rijdt elektrisch."],
+["het laadpunt","şarj istasyonu","Er zijn meer laadpunten nodig."],
+["de milieuvriendelijke auto","çevre dostu araç","Ze heeft een milieuvriendelijke auto."],
+["het fietspad","bisiklet yolu","Er zijn meer fietspaden nodig."],
+],
+phrases:[
+["Ik denk dat we als individu verantwoordelijk zijn voor...","Birey olarak ...dan sorumlu olduğumuzu düşünüyorum"],
+["De overheid zou moeten zorgen voor...","Hükümet ... sağlamalı"],
+["Een concrete maatregel zou kunnen zijn om...","Somut bir önlem şu olabilir:"],
+["Als iedereen... zou doen, dan...","Herkes ... yapsa..."],
+],
+opdracht:"Akşam: 2022 Deel 2 Opgave 5 (fiets/OV i.p.v. auto) - 30 sn, 2 neden. Sonra: maximumsnelheid 30/50 (2024 Deel 2 Opgave 12) görüşünü söyle - 30 sn.",
+tip:null},
+
+{date:"Çar 4 Haz",title:"DEEL 3 - Tablo/Opties Vergelijken",tag:"d3",tagL:"DEEL 3",
+words:[
+["--- KARŞILAŞTIRMA ---","",""],
+["de voor- en nadelen","artılar ve eksiler","Er zijn voor- en nadelen aan beide opties."],
+["het voordeel","avantaj","Het grootste voordeel is..."],
+["het nadeel","dezavantaj","Het nadeel hiervan is..."],
+["de optie","seçenek","Er zijn twee opties beschikbaar."],
+["de voorkeur","tercih","Mijn voorkeur gaat uit naar X."],
+["geschikt zijn voor","uygun olmak","X is meer geschikt voor Y."],
+["de doelgroep","hedef kitle","De doelgroep is het jonge gezin."],
+["de locatie","konum","De locatie is gunstig."],
+["de kosten","maliyet","De kosten zijn lager bij optie A."],
+["flexibel","esnek","Deze optie is flexibeler."],
+["de capaciteit","kapasite","De capaciteit is beperkt."],
+["praktisch","pratik","Deze oplossing is praktischer."],
+["aanbevelen","tavsiye etmek","Ik beveel optie A aan."],
+["--- STUDIE VERGELIJKING (2024) ---","",""],
+["de studieduur","eğitim süresi","De studieduur is vier jaar."],
+["praktisch gericht","pratik odaklı","De hogeschool is meer praktisch gericht."],
+["theoretisch","teorik","De universiteit is meer theoretisch."],
+["zelfstudie","bireysel çalışma","Er is veel zelfstudie vereist."],
+["de stage","staj","Bij de hogeschool zijn meer stages."],
+["--- STRUCTUUR ---","",""],
+["beschrijven","tanımlamak","Ik zal beide opties beschrijven."],
+["samenvatten","özetlemek","Ik wil dit kort samenvatten."],
+["benadrukken","vurgulamak","Ik wil benadrukken dat..."],
+["ter conclusie","sonuç olarak","Ter conclusie wil ik zeggen dat..."],
+["kortom","kısacası","Kortom, X is de beste keuze."],
+["op basis van","...temelinde","Op basis van de informatie..."],
+],
+phrases:[
+["Optie A heeft als voordeel dat..., maar als nadeel dat...","A seçeneğinin avantajı ..., dezavantajı..."],
+["Vergeleken met optie B is optie A beter omdat...","B ile karşılaştırıldığında A daha iyi çünkü..."],
+["Mijn voorkeur gaat uit naar X, omdat...","X'i tercih ediyorum çünkü..."],
+["Voor de doelgroep is X het meest geschikt, want...","Hedef kitle için X en uygun çünkü..."],
+["Dit is de beste keuze omdat het zowel X als Y biedt.","Bu en iyi seçim çünkü hem X hem Y sunuyor."],
+],
+opdracht:"Tren gidiş: 2017 Deel 3 (gastouder vs speelzaal, tablo) - 2 dk. Sonra 2024 Deel 2 Opgave 10 (hogeschool vs universiteit, tablo) - 30 sn, 2 neden.",
+tip:"Tablo sorularında: ilk 30 sn her iki seçeneği tanıt -> karşılaştır -> son 30 sn tavsiye + waarom."},
+
+// HAFTA 3 - KOMPLEKS + IKNA
+{date:"Per 5 Haz",title:"Ziekenhuis Plaatjes + Medische Talimatlar",tag:"d2",tagL:"DEEL 2",
+words:[
+["een injectie geven","enjeksiyon yapmak","Ze geeft de patiënt een injectie."],
+["de temperatuur opnemen","ateş ölçmek","Ze neemt de temperatuur op."],
+["de thermometer","termometre","De thermometer geeft 38 graden aan."],
+["verbinden","sarmak (yara)","Ze verbindt zijn wond."],
+["de rolstoel","tekerlekli sandalye","Hij wordt in een rolstoel geplaatst."],
+["het infuus","serum","Hij krijgt een infuus."],
+["opnemen (ziekenhuis)","yatırmak","Hij wordt opgenomen."],
+["ontslaan","taburcu etmek","Ze wordt morgen ontslagen."],
+["de afdeling spoedeisende hulp","acil servis","Hij gaat naar de spoedeisende hulp."],
+["het recept","reçete","De dokter schrijft een recept."],
+["slikken","yutmak (ilaç)","Slik de pil drie keer per dag."],
+["bijwerkingen","yan etkiler","Dit medicijn heeft bijwerkingen."],
+["rust houden","istirahat etmek","U moet thuis rust houden."],
+["revalideren","rehabilitasyon yapmak","Ze revalideert na de operatie."],
+],
+phrases:[
+["Als eerste heb ik... gedaan, daarna...","İlk önce ... yaptım, ardından..."],
+["Vervolgens heb ik de patiënt...","Ardından hastaya ..."],
+["Het was nodig om X te doen omdat...","X yapmak gerekliydi çünkü..."],
+["Eerst... dan... en ten slotte...","Önce... sonra... ve en son..."],
+],
+opdracht:"Tren gidiş: 2023 Opgave 8 (stage ziekenhuis, 3 plaatje) + 2012 Deel 2 Opgave 8 (arts, been gebroken) - her biri 30 sn.",
+tip:null},
+
+{date:"Cmt 7 Haz",title:"Maatschappelijke Meningen - Wat Vindt U?",tag:"d2",tagL:"DEEL 2",
+words:[
+["de mening","görüş","Ze heeft een duidelijke mening."],
+["het standpunt","tutum","Wat is uw standpunt?"],
+["het argument","argüman","Geef ten minste twee argumenten."],
+["verdedigen","savunmak","Ze verdedigt haar standpunt."],
+["tegenstander / voorstander","karşı / destekleyen","Hij is tegenstander."],
+["verplicht stellen","zorunlu kılmak","Sport verplicht stellen is controversieel."],
+["de vrijheid","özgürlük","Dit beperkt onze vrijheid."],
+["de verantwoordelijkheid","sorumluluk","Dit is eigen verantwoordelijkheid."],
+["de samenleving","toplum","Dit raakt de hele samenleving."],
+["het risico","risk","Er zijn risico's."],
+["effectief","etkili","Is deze maatregel effectief?"],
+["de maximumsnelheid","hız limiti","De maximumsnelheid wordt verlaagd."],
+["verkeersveiligheid","trafik güvenliği","Dit verbetert de verkeersveiligheid."],
+["de uitstoot verminderen","emisyonu azaltmak","Dit vermindert de uitstoot."],
+],
+phrases:[
+["Ik ben het (niet) eens met dit voorstel, omdat...","Bu öneriyle (katılmıyorum) katılıyorum, çünkü..."],
+["Enerzijds snap ik het idee, maar anderzijds...","Bir yandan fikri anlıyorum, ama öte yandan..."],
+["Dit gaat ten koste van de persoonlijke vrijheid.","Bu kişisel özgürlüğü kısıtlıyor."],
+["Er zijn betere alternatieven, zoals...","...gibi daha iyi alternatifler var"],
+["Ik begrijp de zorgen, maar de oplossing zou moeten zijn...","Endişeleri anlıyorum ama çözüm şu olmalı..."],
+],
+opdracht:"Tren dönüş: 2021 Deel 1 Opgave 4 (brommer 16 jaar) + 2024 Deel 2 Opgave 12 (maximumsnelheid 30 km/u) + 2023 Deel 2 Opgave 12 (rijbewijs 17 jaar) - her biri 30 sn.",
+tip:"'Wat vindt u?' formülü: 1) Net standpunt -> 2) Twee redenen -> 3) Eventuele nuance. 30 saniye için bu tam."},
+
+{date:"Paz 8 Haz",title:"DEEL 3 Pratik #2 - İki Ontwerp/Optie",tag:"d3",tagL:"DEEL 3",
+words:[
+["de nieuwbouwwijk","yeni konut bölgesi","Er komt een nieuwbouwwijk."],
+["de bewoner","sakin/konut sahibi","De bewoners zijn tevreden."],
+["de infrastructuur","altyapı","De infrastructuur is goed."],
+["de voorziening","hizmet/olanak","Er zijn goede voorzieningen."],
+["de ligging","konum","De ligging is ideaal."],
+["het ontwerp","tasarım","Het ontwerp is modern."],
+["het budget","bütçe","Het project past binnen het budget."],
+["de investering","yatırım","Dit is een grote investering."],
+["de doelgroep","hedef kitle","De doelgroep zijn jonge gezinnen."],
+],
+phrases:[
+["Ontwerp A heeft als sterk punt dat...","A tasarımının güçlü yanı şu ki..."],
+["Ontwerp B is goedkoper, maar biedt minder...","B tasarımı daha ucuz ama daha az ... sunuyor"],
+["Mijn voorkeur heeft Ontwerp A, omdat...","A tasarımını tercih ediyorum çünkü..."],
+["Voor de doelgroep is dit de meest logische keuze.","Hedef kitle için bu en mantıklı seçim."],
+],
+opdracht:"Akşam: 2021 Deel 3 (nieuwbouwwijk, 2 ontwerpen) - tam 2 dakika. 2 dakika hazırlık yap (gerçek sınav koşulu). Zamanlayıcı.",
+tip:"Deel 3'te 3 bullet her zaman booklet'te yazıyor. Sırayla hepsine değin. Birini atlayan tam puan alamaz."},
+
+{date:"Pzt 9 Haz",title:"TREN: Telefoon & Formele Gesprekken",tag:"d1",tagL:"DEEL 1",
+words:[
+["u spreekt met","...ile konuşuyorsunuz","Goedemiddag, u spreekt met Kemal."],
+["doorverbinden met","bağlamak","Kunt u me doorverbinden?"],
+["de voicemail inspreken","sesli mesaj bırakmak","Ik spreek een bericht in."],
+["terugbellen","geri aramak","Kunt u mij terugbellen?"],
+["bereikbaar zijn","ulaşılabilir olmak","Ik ben bereikbaar op nummer..."],
+["een afspraak maken","randevu almak","Ik wil een afspraak maken."],
+["verzetten (afspraak)","ertelemek","Ik moet de afspraak verzetten."],
+["afzeggen","iptal etmek","Ze heeft de afspraak afgezegd."],
+["navragen","sormak/öğrenmek","Ik wil navragen of..."],
+["excuses aanbieden","özür dilemek","Ik bied mijn excuses aan."],
+["bezorgdienst bellen","kurye aramak","U belt een bezorgdienst."],
+["ophalen","almak/teslim almak","De bezorgdienst haalt de dozen op."],
+["bezorgen","teslim etmek","De dozen worden bezorgd in Rotterdam."],
+["de zending","gönderi","De zending moet voor 15:30 aankomen."],
+],
+phrases:[
+["Goedemiddag, u spreekt met X. Ik bel omdat...","İyi günler, X ile konuşuyorsunuz. Arıyorum çünkü..."],
+["Ik wil graag weten of het mogelijk is om...","... mümkün olup olmadığını öğrenmek istiyorum"],
+["Kunt u mij zo snel mogelijk terugbellen?","En kısa sürede geri arar mısınız?"],
+["Ik snap dat dit vervelend is en bied mijn excuses aan.","Bunun rahatsız edici olduğunu anlıyorum, özür dilerim."],
+],
+opdracht:"Tren dönüş: 2024 Deel 1 Opgave 3 (bezorgdienst, 2 plaatjes) - 20 sn. 2024 Deel 1 Opgave 1 (rijexamen, gips, foto) - 20 sn.",
+tip:null},
+
+{date:"Sal 10 Haz",title:"Plaatjes Hızlandırma - Sıralı Eylemler",tag:"d2",tagL:"DEEL 2",
+words:[
+["aantrekken","giymek","Hij trekt zijn jas aan."],
+["uitdoen / uittrekken","çıkarmak","Ze doet haar schoenen uit."],
+["pakken","almak/kavramak","Hij pakt de sleutels."],
+["neerleggen","koymak","Ze legt de tas neer."],
+["oprapen","yerden almak","Hij raap het op."],
+["aanreiken / overhandigen","uzatmak/vermek","Ze reikt hem het formulier aan."],
+["invullen","doldurmak","Hij vult het formulier in."],
+["ondertekenen","imzalamak","Ze ondertekent het formulier."],
+["afrekenen","ödemek","Hij rekent af."],
+["wachten op","beklemek","Ze wacht op haar beurt."],
+["aanwijzen","işaret etmek","Hij wijst de weg aan."],
+["controleren","kontrol etmek","De bewaker controleert."],
+["door het poortje gaan","kapıdan geçmek","Ze gaat door het poortje."],
+["de stekker eruit trekken","fişi çekmek","Trek de stekker eruit."],
+["de computer aansluiten","bilgisayarı bağlamak","Sluit de computer aan."],
+["inpakken in een doos","kutuya koymak","Pak de spullen in een doos."],
+["een foto laten maken","fotoğraf çektirmek (2024)","Ze laat een foto maken voor het pasje."],
+["het formulier invullen","formu doldurmak","Vul het formulier in bij de receptie."],
+],
+phrases:[
+["Zoals u ziet, is hij/zij bezig met...","Gördüğünüz gibi, o ... ile meşgul"],
+["Op dit plaatje is te zien dat...","Bu resimde ... görülüyor"],
+["Net op dat moment...","Tam o anda..."],
+["Terwijl hij X deed, gebeurde er...","O X yaparken ... oldu"],
+],
+opdracht:"Akşam: 2024 Deel 2 Opgave 7 (pasje aanvragen, 3 plaatje: receptie + formulier + foto) - 30 sn. 10 kez. Hızlan her seferinde.",
+tip:"2024 pasje-soru tipi: sıralı prosedür anlatma. 'Eerst gaat u naar de receptie... dan vult u het formulier in... daarna...'"},
+
+{date:"Çar 11 Haz",title:"Vrijwilligerswerk, Maatschappij & Geld ophalen",tag:"d2",tagL:"DEEL 2",
+words:[
+["het vrijwilligerswerk","gönüllü çalışma","Ze doet vrijwilligerswerk."],
+["de vacature","iş ilanı","Er is een vacature voor een vrijwilliger."],
+["voldoen aan de eisen","gereksinimleri karşılamak","Ze voldoet aan alle eisen."],
+["de motivatie","motivasyon","Haar motivatie is hoog."],
+["bijdragen aan","katkıda bulunmak","Hij wil bijdragen aan de samenleving."],
+["de boekhouding","muhasebe","Hij helpt met de boekhouding."],
+["de natuurorganisatie","doğa örgütü","Ze werkt bij een natuurorganisatie."],
+["geld ophalen","para toplamak","Ze halen geld op voor het goede doel."],
+["de actieweek","kampanya haftası","Er is een actieweek voor het milieu."],
+["langs de deuren gaan","kapı kapı dolaşmak","Ze gaan langs de deuren."],
+["de televisiereclame","TV reklamı","Ze plaatsen een televisiereclame."],
+["een advertentie plaatsen","reklam vermek","Ze plaatsen een advertentie."],
+["de krant","gazete","Er staat een artikel in de krant."],
+["doneren","bağış yapmak","Hij doneert geld aan het goede doel."],
+["inzamelen","toplamak","Ze zamelen geld in."],
+],
+phrases:[
+["Ik kies voor X, omdat ik daar meer affiniteit mee heb.","X'i seçiyorum çünkü bununla daha çok bağım var."],
+["Mijn keuze is gebaseerd op mijn ervaring met...","Seçimim ...daki deneyimime dayanıyor"],
+["Ik wil graag iets terugdoen voor de samenleving.","Topluma bir şeyler geri vermek istiyorum."],
+["Bovendien past X beter bij mijn kwaliteiten.","Ayrıca X benim niteliklerime daha uygun."],
+],
+opdracht:"Tren dönüş: 2024 Deel 2 Opgave 11 (geld ophalen, 3 plaatjes: deur/TV/krant) - 30 sn. Sonra 2023 Deel 2 Opgave 7 (vrijwilligerswerk) - 30 sn.",
+tip:null},
+
+// HAFTA 4 - SİMÜLASYON
+{date:"Per 12 Haz",title:"TAM SİMÜLASYON #1 - 2022 Sınavı",tag:"sim",tagL:"SİMÜLASYON",
+words:[],phrases:[],
+opdracht:"Tren gidiş + dönüş = 2022 tam sınavı. PDF'ten oku. Deel 1 (4 soru, 20sn) -> Deel 2 (8 soru, 30sn) -> Deel 3 (2 dk). Gerçek zamanlama. Telefona kaydet.",
+tip:"Simülasyonda: booklete not al (2 dk hazırlık), metni okuma. Bitince dinle, hangi soru zordu? Yaz."},
+
+{date:"Cmt 14 Haz",title:"Zayıf Nokta Analizi + Kelime Atlatma",tag:"d2",tagL:"DEEL 2",
+words:[
+["het is een soort X waarbij je...","bu bir tür X, ...yaptığın","Het is een soort container waarbij je glas ingooit."],
+["ik bedoel het apparaat waarmee je...","...ile ...yaptığın alet","Ik bedoel het ding waarmee je veters strikkt."],
+["hoe heet dat ook alweer...","adı ne idi ya...","Hoe heet dat ook alweer..."],
+["het ding waarmee je...","...ile ...yaptığın şey","Het ding waarmee je de deur opendoet."],
+["de persoon die verantwoordelijk is voor...","...dan sorumlu kişi","De persoon die verantwoordelijk is voor..."],
+["het tegenovergestelde van","...nın karşıtı","Het is het tegenovergestelde van snel."],
+["iets wat je doet als je...","...yaptığında yaptığın şey","Iets wat je doet als je ziek bent."],
+["een soort...dat/die...","bir tür...","Een soort voertuig dat op rails rijdt."],
+],
+phrases:[
+["Hoe moet ik dat zeggen... ik bedoel...","Nasıl desem... demek istediğim..."],
+["Laat me even nadenken...","Bir düşüneyim..."],
+["Wat ik eigenlijk wil zeggen is...","Aslında demek istediğim şu..."],
+["Of eigenlijk: het is een soort...","Ya da aslında bu bir tür..."],
+["Ik weet het woord niet precies, maar het gaat om...","Kelimeyi tam bilmiyorum ama konu şu..."],
+],
+opdracht:"Sim #1'i dinle. 3 en zor an belirle. O 3 soruyu tekrar yap. Sonra: 5 nesne seç (çantandan), her birini kelimesini kullanmadan tanımla - 30 sn her biri.",
+tip:"'Laat me even nadenken' = profesyonel. Sessizlik = panik sinyali. Bu tercih otomatik olmalı."},
+
+{date:"Paz 15 Haz",title:"DEEL 3 Pratik #3 - Twee Opties Vergelijken",tag:"d3",tagL:"DEEL 3",
+words:[],phrases:[
+["Ontwerp/Optie A heeft als voordeel X, maar als nadeel Y","A'nın avantajı X, dezavantajı Y"],
+["Mijn aanbeveling is X omdat het het beste aansluit bij...","Tavsiyem X çünkü ...ile en uyumlu"],
+["Kortom, de beste keuze is X vanwege...","Kısacası, en iyi seçim X, çünkü..."],
+],
+opdracht:"Akşam: 2012 Deel 3 Opgave 1 (sollicitanten vergelijken, tablo) - 2 dk. Ardından 2017 Deel 3 Opgave 17 (bedrijfsuitstapje) - 2 dk.",
+tip:null},
+
+{date:"Pzt 16 Haz",title:"TREN: Hızlı Kelime Tekrarı Tüm Konular",tag:"d1",tagL:"REVIEW",
+words:[
+["de veter strikken","ayakkabı bağlamak","Hij strikt zijn veters."],
+["de rits dichtdoen","fermuar çekmek","Ze doet haar rits dicht."],
+["inpakken","paketlemek","De spullen worden ingepakt."],
+["de stekker eruit trekken","fişi çekmek","Trek de stekker eruit."],
+["loskoppelen","bağlantısını kesmek","Koppel de computer los."],
+["de fysiotherapie","fizyoterapi","Hij heeft fysiotherapie nodig."],
+["overtuigen","ikna etmek","Ze probeert hem te overtuigen."],
+["de overlast","rahatsızlık","Buren hebben overlast."],
+["aanleggen","kurmak","Ze leggen een vijver aan."],
+["duurzaam","sürdürülebilir","Dit product is duurzaam."],
+["de maatregel","önlem","Er zijn maatregelen nodig."],
+["het percentage stijgt","yüzde artıyor","Het percentage stijgt."],
+["aanbevelen","tavsiye etmek","Ik beveel X aan."],
+["bijdragen aan","katkıda bulunmak","Dit draagt bij aan de oplossing."],
+["de geluidsoverlast","gürültü kirliliği","Inwoners klagen over geluidsoverlast."],
+["de maximumsnelheid","hız limiti","De maximumsnelheid is verlaagd."],
+["verminderen","azaltmak","De overlast moet worden verminderd."],
+["de loopbaan","kariyer","Ze heeft een mooie loopbaan."],
+["slagen voor","geçmek (sınav)","Ze is geslaagd voor haar examen."],
+["de klimaatverandering","iklim değişikliği","Klimaatverandering is een groot probleem."],
+],
+phrases:[
+["Laat me even nadenken... Ik denk dat...","Bir düşüneyim..."],
+["Hoe moet ik dat zeggen... het is een soort...","Nasıl desem... bu bir tür..."],
+["Wat ik bedoel is...","Demek istediğim şu..."],
+],
+opdracht:"Tren gidiş: Sadece kelime tekrarı - sesli oku, Türkçesini kapatıp Hollandaca tanımla. Tren dönüş: 2022 Deel 1 tüm soruları (20 sn her biri).",
+tip:null},
+
+{date:"Sal 17 Haz",title:"TAM SİMÜLASYON #2 - 2021 Sınavı",tag:"sim",tagL:"SİMÜLASYON",
+words:[],phrases:[],
+opdracht:"AKŞAM: 2021 tam sınavı. Deel 1 (4 soru, 20sn) -> Deel 2 (8 soru, 30sn) -> Deel 3 (2 dk). Gerçek zamanlama. Telefona kaydet. 24 saat sonra dinle.",
+tip:"Bu simülasyonda dikkat: Deel 3'e 2 dk hazırlık. Notlarına bak ama okuma."},
+
+{date:"Çar 18 Haz",title:"TAM SİMÜLASYON #3 - 2023 Sınavı",tag:"sim",tagL:"SİMÜLASYON",
+words:[],phrases:[],
+opdracht:"Tren gidiş + dönüş: 2023 tam sınavı. Gürültülü ortamda konuş - tren mükemmel. Deel 3: vervoer grafiek.",
+tip:"3. simülasyon. Format tamamen tanıdık olmalı. Odak: pieptoon öncesi 1 saniyelik nefes."},
+
+// HAFTA 5 - SON RÖTUŞLAR
+{date:"Per 19 Haz",title:"TAM SİMÜLASYON #4 - 2024 Sınavı",tag:"sim",tagL:"SİMÜLASYON",
+words:[],phrases:[],
+opdracht:"AKŞAM: 2024 tam sınavı. Deel 3: geluidsoverlast grafiek. Üç kritere dikkat: grafik aç + elk type voorbeeld + twee maatregelen. Kaydet.",
+tip:"2024'te yeni: elk type geluidsoverlast için ayrı ÖRNEk iste. Bu 2023'te yoktu."},
+
+{date:"Cmt 21 Haz",title:"Son Tekrar - Sadece Kalıplar",tag:"d3",tagL:"DEEL 3",
+words:[],
+phrases:[
+["Zoals u kunt zien in de grafiek...","Grafikte gördüğünüz gibi..."],
+["Ten eerste... Ten tweede... Tot slot...","Birincisi... İkincisi... Son olarak..."],
+["Mijn voorkeur gaat uit naar X, omdat...","X'i tercih ediyorum çünkü..."],
+["Laat me even nadenken... Ik denk dat...","Bir düşüneyim..."],
+["Ik geef er de voorkeur aan om X te doen.","X yapmayı tercih ederim."],
+["Het is een soort X waarbij je...","Bu, ...yaptığın bir tür X"],
+["Kortom, mijn conclusie is...","Kısacası, sonucum şu..."],
+["Ik hoop dat ik dit duidelijk heb uitgelegd.","Bunu net açıkladığımı umuyorum."],
+["Ik begrijp uw standpunt, maar...","Görüşünüzü anlıyorum ama..."],
+["Als eerste... daarna... vervolgens... tot slot...","İlk önce... ardından... sonra... son olarak..."],
+["Een mogelijke verklaring hiervoor is...","Bunun olası bir açıklaması şu..."],
+["Op basis van de grafiek kan ik concluderen dat...","Grafiğe dayanarak şu sonuca varıyorum:..."],
+],
+opdracht:"4 simülasyona bak, en çok hata yaptığın soru tipini belirle. O tipi bu sabah 5 kez yap. Akşam SADECE kalıpları sesli tekrarla - yeni kelime öğrenme.",
+tip:"Bugünden itibaren yeni kelime girişi yok. Sadece pekiştirme."},
+
+{date:"Paz 22 Haz",title:"Hafif Isınma",tag:"d1",tagL:"HAFIF",
+words:[],phrases:[],
+opdracht:"SABAH (30 dk): Deel 1 ve Deel 2'den 5'er soru, daha önce çalıştıklarından. AKŞAM: sadece Deel 3 girişini ve sonucunu prova et. Beyin yorma.",
+tip:"Bu gün yorma. 48 saat sonra sınavda optimum olacak."},
+
+{date:"Pzt 23 Haz",title:"Sınav Öncesi Son Gün",tag:"d1",tagL:"HAFIF",
+words:[],phrases:[],
+opdracht:"SADECE 15 DAKİKA: En sevdiğin 3 kalıbı sesli söyle. 1 Deel 3 girişini prova et. Kapat. Erken uyu.",
+tip:"494/500 aldın. Format biliyorsun. Kelimeler orada. Yarın sadece sakin başla."},
+
+{date:"Sal 24 Haz",title:"[SINAV] SINAV GÜNÜ",tag:"exam",tagL:"SINAV",
+words:[],phrases:[],
+opdracht:"Erken git. Su götür. Kulaklık tak, mikrofona yakın konuş. Pieptoon'u duy, 1 sn nefes al, başla. Deel 3'te booklete yaz: [grafik/seçenekler] [argümanlar] [beste keuze + waarom]. Başarılar Gökhan.",
+tip:"İçerik doğru olmak zorunda değil. Bağlantılı, akıcı, net olmak zorunda."},
+];
+
+// RENDER ENGINE
+const EXAM = new Date('2026-06-24T09:00:00');
+function upCD(){
+  const d=EXAM-new Date();
+  if(d<=0){document.getElementById('cd').textContent='[*] SINAV GÜNÜ!';return;}
+  const days=Math.floor(d/86400000),hrs=Math.floor((d%86400000)/3600000);
+  document.getElementById('cd').textContent=`SINAVA ${days}G ${hrs}S`;
+}
+var _mem=[];
+function getD(){try{return JSON.parse(localStorage.getItem('nt2v2')||'[]');}catch(e){return _mem.slice();}}
+function saveD(a){_mem=a.slice();try{localStorage.setItem('nt2v2',JSON.stringify(a));}catch(e){}}
+function upProg(){
+  const d=getD();
+  document.getElementById('pf').style.width=Math.round(d.length/DAYS.length*100)+'%';
+}
+function toggleDone(i,e){
+  e.stopPropagation();
+  let d=getD();const k='d'+i;
+  if(d.includes(k))d=d.filter(x=>x!==k);else d.push(k);
+  saveD(d);
+  const card=document.querySelector('[data-i="'+i+'"]');
+  const btn=card.querySelector('.cb');
+  const isDone=d.includes(k);
+  card.classList.toggle('done',isDone);
+  btn.classList.toggle('done',isDone);
+  btn.textContent=isDone?'v':'';
+  upProg();
+}
+function tog(i){
+  const b=document.querySelector('[data-b="'+i+'"]');
+  const c=document.querySelector('[data-c="'+i+'"]');
+  b.classList.toggle('op');c.classList.toggle('op');
+}
+function render(){
+  const mc=document.getElementById('mc');
+  const done=getD();
+  let h='';
+  const weeks={0:'HAFTA 1 - 22-28 Mayıs',7:'HAFTA 2 - 29 Mayıs-4 Haziran',14:'HAFTA 3 - 5-11 Haziran',19:'HAFTA 4 - 12-18 Haziran',25:'HAFTA 5 - 19-24 Haziran'};
+  DAYS.forEach((day,i)=>{
+    if(weeks[i])h+=`<div class="wh">${weeks[i]}</div>`;
+    const isDone=done.includes('d'+i);
+    const isExam=day.tag==='exam';
+    const tc={d1:'td1',d2:'td2',d3:'td3',sim:'tsim',exam:'texam'}[day.tag]||'td1';
+    h+=`<div class="dc ${isDone&&!isExam?'done':''} ${isExam?'today':''}" data-i="${i}">
+<div class="dh" onclick="tog(${i})">
+  <div class="dn">#${String(i+1).padStart(2,'0')}</div>
+  <div class="dd">${day.date}</div>
+  <div class="dt">${day.title}</div>
+  <span class="tag ${tc}">${day.tagL}</span>
+  <button class="cb ${isDone?'done':''}" onclick="toggleDone(${i},event)">${isDone?'v':''}</button>
+  <span class="chev" data-c="${i}">-</span>
+</div>
+<div class="db" data-b="${i}">`;
+    if(day.words&&day.words.length>0){
+      h+=`<div class="bl"><div class="blt">KELİMELER <span class="tb">TREN GİDİŞ</span></div><table class="wt">`;
+      day.words.forEach(([nl,tr,ex])=>{
+        if(nl.startsWith('--')){
+          h+=`<tr class="cat"><td colspan="3" class="cat">${nl.replace(/--/g,'').trim()}</td></tr>`;
+        } else {
+          h+=`<tr><td class="nl">${nl}</td><td class="tr">${tr}</td><td class="ex">${ex}</td></tr>`;
+        }
+      });
+      h+=`</table></div>`;
+    }
+    if(day.phrases&&day.phrases.length>0){
+      h+=`<div class="bl"><div class="blt">KALIPLAR <span class="tb">TREN DÖNÜŞ</span></div><ul class="pl">`;
+      day.phrases.forEach(([nl,tr])=>{
+        h+=`<li><strong>${nl}</strong><span>${tr}</span></li>`;
+      });
+      h+=`</ul></div>`;
+    }
+    h+=`<div class="bl"><div class="blt">ÖDEV <span class="tb">AKŞAM/GÜN</span></div>
+<div class="ob"><div class="lbl">BUGÜNÜN GÖREVİ</div>${day.opdracht}</div>`;
+    if(day.tip)h+=`<div class="tip">[!] ${day.tip}</div>`;
+    h+=`</div></div></div>`;
+  });
+  mc.innerHTML=h;upProg();
+}
+upCD();setInterval(upCD,60000);render();
+</script>
+</body>
+</html>
